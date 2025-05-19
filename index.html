@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigneshwar's Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            background-color: #d0da83;
+            color: #cfa468;
+        }
+        .horizontal-container {
+            display: flex;
+            width: 600vw;
+            height: 100vh;
+            position: relative;
+            transition: transform 0.8s ease-out;
+        }
+        .bg-layer-1 {
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 110%;
+            height: 150vh;
+            background-image: url('/bgtree.png');
+            background-repeat: repeat-x;
+            background-position: bottom;
+            background-size: auto 100%;
+            z-index: 1;
+            transition: transform 1.2s ease-out;
+        }
+        .bg-layer-2 {
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 150vh;
+            background-image: url('cloud.png');
+            background-repeat: repeat-x;
+            background-position: top 50px;
+            background-size: auto 50%;
+            z-index: 0;
+            transition: transform 0.2s ease-out;
+            opacity: 0.8;
+            animation: floatClouds 8s ease-in-out infinite;
+        }
+        @keyframes floatClouds {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .section {
+            width: 100vw; height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            position: relative; z-index: 2;
+            padding: 110px;
+            padding-bottom: 25vh;
+        }
+        .section-content {
+            background-color: rgba(255, 246, 213, 0.85);
+            border-radius: 15px;
+            padding: 5px;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 3px solid #6b8e23;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #5d7e38;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+        .grid-item {
+            background-color: rgba(255, 246, 213, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 2px solid #8aad62;
+        }
+        .grid-item h3 {
+            color: #5d7e38;
+            margin-bottom: 10px;
+        }
+        .intro-container {
+            width: 100vw; height: 100vh;
+            position: relative; overflow: hidden; z-index: 2;
+        }
+        .cloud {
+            position: absolute;
+            width: 300px; height: 200px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('cloud.png');
+            transition: all 2s ease-in-out;
+            z-index: 3;
+            animation: floatCloud 10s ease-in-out infinite;
+        }
+        @keyframes floatCloud {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+        .cloud-left { top: 15%; left: 60%; animation-delay: 0s; }
+        .cloud-right { top: 25%; right: 60%; animation-delay: 2s; }
+        .welcome-text {
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 4;
+            background-color: rgba(255, 246, 213, 0.7);
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: 3px solid #6b8e23;
+        }
+        .welcome-text h1 {
+            font-size: 3em;
+            color: #5d7e38;
+            margin-bottom: 10px;
+        }
+        .welcome-text p {
+            font-size: 1.5em;
+            color: #5d7e38;
+        }
+        .character-container {
+            position: fixed;
+            bottom: 52.5vh;
+            left: 5%;
+            z-index: 10;
+            width: 100px; height: 200px;
+        }
+        .character {
+            width: 1000px; height: 700px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0; left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .character-img-0 { background-image: url('char.png'); }
+        .character-img-1 { background-image: url('char2.png'); }
+        .character-img-2 { background-image: url('char3.png'); }
+        .character-img-3 { background-image: url('char4.png'); }
+        .character-img-4 { background-image: url('char5.png'); }
+        .character-img-5 { background-image: url('char.jpg'); }
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px; width: 100%;
+            display: flex; justify-content: center;
+            z-index: 10; opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .nav-button {
+            background-color: rgba(255, 246, 213, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 50px; height: 50px;
+            margin: 0 10px;
+            cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5em;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            color: #5d7e38;
+            transition: all 0.3s ease;
+            border: 2px solid #8aad62;
+        }
+        .nav-button:hover {
+            background-color: #5d7e38;
+            color: #f9f1d9;
+        }
+        .progress-container {
+            position: fixed;
+            bottom: 20px; left: 50%;
+            transform: translateX(-50%);
+            width: 200px; height: 5px;
+            background-color: rgba(255, 246, 213, 0.3);
+            border-radius: 5px; z-index: 10;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 16.6%;
+            background-color: #5d7e38;
+            border-radius: 5px;
+            transition: width 0.8s ease-out;
+        }
+        .section-indicators {
+            position: fixed;
+            right: 20px; top: 50%;
+            transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 10px;
+            z-index: 10;
+        }
+        .section-indicator {
+            width: 15px; height: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 246, 213, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #8aad62;
+        }
+        .section-indicator.active {
+            background-color: #5d7e38;
+            transform: scale(1.2);
+        }
+        .wooden-sign {
+            position: absolute;
+            top: 20%; right: 10%;
+            width: 200px; height: 120px;
+            background-color: #8b5a2b;
+            border-radius: 10px;
+            display: flex; justify-content: center; align-items: center;
+            transform: rotate(5deg);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            border: 6px solid #654321;
+            padding: 15px; z-index: 4;
+        }
+        .wooden-sign h3 {
+            color: #f9f1d9;
+            text-align: center;
+            font-size: 1.8em;
+            transform: rotate(-5deg);
+        }
+       
+        button.link-btn, .grid-item button {
+            padding: 10px 16px;
+            background-color: #24292e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 4px 0;
+            display: inline-block;
+        }
+        button.link-btn:hover, .grid-item button:hover {
+            background-color: #444c56;
+        }
+    </style>
+</head>
+<body>
+    <div class="character-container">
+        <div class="character character-img-0"></div>
+        <div class="character character-img-1"></div>
+        <div class="character character-img-2"></div>
+        <div class="character character-img-3"></div>
+        <div class="character character-img-4"></div>
+        <div class="character character-img-5"></div>
+    </div>
+    <div class="horizontal-container">
+        <div class="bg-layer-1"></div>
+        <div class="bg-layer-2"></div>
+
+        <!-- Section 1: Intro -->
+        <div class="section intro-container">
+            <div class="cloud cloud-left"></div>
+            <div class="cloud cloud-right"></div>
+            <div class="welcome-text">
+                <h1>Explore My Portfolio</h1>
+                <p>I'm Vigneshwar</p>
+            </div>
+            <div class="wooden-sign"><h3>Welcome!</h3></div>
+        </div>
+        <!-- Section 2: Personal Information -->
+        <div class="section">
+            <div class="wooden-sign"><h3>Personal Info</h3></div>
+            <div class="section-content">
+                <h2>Personal Information</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h3>About Me</h3>
+                        <p>I’m a designer–developer blending creativity with cutting-edge AI/ML.
+                            Recently fine-tuned large language models to build intelligent, adaptive tools.
+                            My work bridges design, code, and machine learning to craft engaging experiences.
+                            Passionate about innovation, I focus on real-world impact through tech.
+                            Always experimenting, always learning — I turn ideas into working systems.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Education</h3>
+                        <p><b>Bachelor of Technology in Computer Science Engineering</b><br>
+                            Sreenidhi institute of science and technology, 2023-2026 <br>
+                        <b>Diploma in Computer Engineering</b> <br>
+                            Vijay rural Engineering college</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Interests</h3>
+                        <p>AI&ML, Game designing, Web Development,UI/UX, IOT</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Talents</h3>
+                        <p>Digital art, Painting, and Story Writing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Section 3: Projects -->
+        <div class="section">
+            <div class="wooden-sign"><h3>Projects</h3></div>
+            <div class="section-content">
+                <h2>Projects</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h3>SreeTalk</h3>
+                        <p>A conversational AI assistant featuring long-term memory, multilingual dialogue (English + Telugu),helps in coding DSA and customizable personality traits. Powered by local LLM inference via llama.cpp and built with Python and Tkinter for a responsive, themed desktop UI.</p>
+                        <button class="link-btn" data-url="https://github.com/Vigneshwar4053/TalkSree">GitHub</button>
+                    </div>
+                    <div class="grid-item">
+                        <h3>WhatsThat</h3>
+                        <p>Developed a real-time object detection system for visually impaired users using YOLOv8 trained on a custom dataset.Implemented backend model serving for efficient video processing. Enhanced user independence through accurate computer vision techniques.</p>
+                        <button class="link-btn" data-url="https://github.com/Vigneshwar4053/whatsthat.git">GitHub</button>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Emeserv</h3>
+                        <p>Emserv is a healthcare platform designed to help users find essential medical services quickly and efficiently. It enables users to locate nearby hospitals, medical shops offering affordable government-supplied medicines, hospitals specializing in rare diseases, and NGOs that provide financial assistance for expensive treatments.</p>
+                        <button class="link-btn" data-url="https://github.com/Vigneshwar4053/Emserv">GitHub</button>
+                    </div>
+                    <div class="grid-item">
+                        <h3>To see more projects...</h3>
+                        <button class="link-btn" data-url="https://github.com/Vigneshwar4053?tab=repositories">More projects</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Section 4: Skills -->
+        <div class="section">
+            <div class="wooden-sign"><h3>Skills</h3></div>
+            <div class="section-content">
+                <h2>Skills</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h3>AI&ML</h3>
+                        <p>Deep Learning, CNNs, NLP, Computer Vision, Data Preprocessing, Model Evaluation, Fine-tuning</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Backend</h3>
+                        <p>Node.js, Express, Python,Java</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Database</h3>
+                        <p>MongoDB, MySQL, Firebase</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Libraries & Tools</h3>
+                        <p>Pandas, NumPy, OpenCV, YOLO, SpaCy, Jupyter Notebook, Google Colab, GitHub, VS Code, Unreal engine, Azure, Photoshop, Canva</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Section 5: Achievements -->
+        <div class="section">
+            <div class="wooden-sign"><h3>Achievements</h3></div>
+            <div class="section-content">
+                <h2>Achievements</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h3>Top 100 – HackHazards 2025</h3>
+                        <p>Selected among the top 100 teams in HackHazards 2025, a global hackathon with participants from over 15 countries. Developed an innovative solution to tackle real-world challenges under tight deadlines and global competition.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Certification</h3>
+                        <p>Machine Learning ,Bootcamp on IOT, Unreal Engine5 C++ EA-Software engineering job simulation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Section 6: Contact -->
+        <div class="section">
+            <div class="wooden-sign"><h3>Contact</h3></div>
+            <div class="section-content">
+                <h2>Contact</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h3>Email</h3>
+                        <button onclick="window.location.href='mailto:futuredev024@gmail.com'">futuredev024@gmail.com</button>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Social Media</h3>
+                        <button class="link-btn" data-url="https://linkedin.com/in/vigneshwar%20sameti%20thirumani">LinkedIn</button>
+                        <button class="link-btn" data-url="https://github.com/vigneshwar4053">GitHub</button>
+                    </div>
+                    <div class="grid-item">
+                        <h3>Location</h3>
+                        <button class="link-btn" data-url="https://www.google.com/maps/place/Hyderabad,+Telangana,+India/">Hyderabad, Telangana, India</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <button class="nav-button prev-btn">←</button>
+        <button class="nav-button next-btn">→</button>
+    </div>
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+    </div>
+    <div class="section-indicators">
+        <div class="section-indicator active" data-index="0"></div>
+        <div class="section-indicator" data-index="1"></div>
+        <div class="section-indicator" data-index="2"></div>
+        <div class="section-indicator" data-index="3"></div>
+        <div class="section-indicator" data-index="4"></div>
+        <div class="section-indicator" data-index="5"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Open all .link-btn in new tab
+            document.body.addEventListener('click', function(e) {
+                if (e.target.classList.contains('link-btn')) {
+                    const url = e.target.getAttribute('data-url');
+                    if (url) window.open(url, '_blank');
+                }
+            });
+
+            // Navigation and effects
+            const container = document.querySelector('.horizontal-container');
+            const nextBtn = document.querySelector('.next-btn');
+            const prevBtn = document.querySelector('.prev-btn');
+            const progressBar = document.querySelector('.progress-bar');
+            const sectionIndicators = document.querySelectorAll('.section-indicator');
+            const characters = document.querySelectorAll('.character');
+            const bgLayer1 = document.querySelector('.bg-layer-1');
+            const bgLayer2 = document.querySelector('.bg-layer-2');
+
+            let currentSection = 0;
+            const totalSections = 6;
+
+            updateCharacter(0);
+
+            function updateCharacter(index) {
+                characters.forEach((char, i) => {
+                    char.style.opacity = (i === index) ? '1' : '0';
+                });
+            }
+
+            setTimeout(() => {
+                document.querySelector('.welcome-text').style.opacity = '1';
+                setTimeout(() => {
+                    document.querySelector('.scroll-indicator').style.opacity = '1';
+                }, 500);
+            }, 1000);
+
+            function goToSection(index) {
+                if (index < 0) index = 0;
+                if (index >= totalSections) index = totalSections - 1;
+                currentSection = index;
+                container.style.transform = `translateX(${-currentSection * 100}vw)`;
+                const bgOffset1 = -currentSection * 60;
+                const bgOffset2 = -currentSection * 30;
+                bgLayer1.style.transform = `translateX(${bgOffset1}px)`;
+                bgLayer2.style.transform = `translateX(${bgOffset2}px)`;
+                progressBar.style.width = `${(currentSection + 1) / totalSections * 100}%`;
+                sectionIndicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === currentSection);
+                });
+                updateCharacter(currentSection);
+            }
+
+            nextBtn.addEventListener('click', () => goToSection(currentSection + 1));
+            prevBtn.addEventListener('click', () => goToSection(currentSection - 1));
+            sectionIndicators.forEach(indicator => {
+                indicator.addEventListener('click', () => goToSection(parseInt(indicator.dataset.index)));
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') goToSection(currentSection + 1);
+                else if (e.key === 'ArrowLeft') goToSection(currentSection - 1);
+            });
+
+            let wheelTimeout;
+            let wheelThrottle = false;
+            document.addEventListener('wheel', (e) => {
+                if (wheelThrottle) return;
+                wheelThrottle = true;
+                clearTimeout(wheelTimeout);
+                wheelTimeout = setTimeout(() => {
+                    if (e.deltaY > 0) goToSection(currentSection + 1);
+                    else if (e.deltaY < 0) goToSection(currentSection - 1);
+                    setTimeout(() => { wheelThrottle = false; }, 800);
+                }, 300);
+            });
+
+            let touchStartX = 0;
+            let touchEndX = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            function handleSwipe() {
+                const threshold = 50;
+                if (touchEndX < touchStartX - threshold) goToSection(currentSection + 1);
+                else if (touchEndX > touchStartX + threshold) goToSection(currentSection - 1);
+            }
+
+            document.addEventListener('mousemove', (e) => {
+                const moveY = (e.clientY / window.innerHeight) * 5;
+                const currentBgTransform1 = bgLayer1.style.transform || '';
+                const currentBgTransform2 = bgLayer2.style.transform || '';
+                const currentX1 = currentBgTransform1.includes('translateX') 
+                    ? parseInt(currentBgTransform1.match(/translateX\((-?\d+)px\)/)[1])
+                    : 0;
+                const currentX2 = currentBgTransform2.includes('translateX')
+                    ? parseInt(currentBgTransform2.match(/translateX\((-?\d+)px\)/)[1])
+                    : 0;
+                bgLayer1.style.transform = `translateX(${currentX1}px) translateY(${moveY}px)`;
+                bgLayer2.style.transform = `translateX(${currentX2}px) translateY(${-moveY * 1.5}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
