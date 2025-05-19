@@ -51,21 +51,27 @@
             50% { transform: translateY(-20px); }
         }
         .section {
-            width: 100vw; height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            position: relative; z-index: 2;
-            padding: 110px;
-            padding-bottom: 25vh;
+            width: 100vw; 
+            height: 100vh;
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            position: relative; 
+            z-index: 2;
+            padding: 20px;
+            padding-bottom: 10vh;
         }
         .section-content {
             background-color: rgba(255, 246, 213, 0.85);
             border-radius: 15px;
-            padding: 5px;
+            padding: 20px;
             max-width: 800px;
             width: 90%;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             border: 3px solid #6b8e23;
+            position: relative;
+            z-index: 5;
         }
         h2 {
             text-align: center;
@@ -91,12 +97,19 @@
             margin-bottom: 10px;
         }
         .intro-container {
-            width: 100vw; height: 100vh;
-            position: relative; overflow: hidden; z-index: 2;
+            width: 100vw; 
+            height: 100vh;
+            position: relative; 
+            overflow: hidden; 
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .cloud {
             position: absolute;
-            width: 300px; height: 200px;
+            width: 300px; 
+            height: 200px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -112,9 +125,7 @@
         .cloud-left { top: 15%; left: 60%; animation-delay: 0s; }
         .cloud-right { top: 25%; right: 60%; animation-delay: 2s; }
         .welcome-text {
-            position: absolute;
-            top: 40%; left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
             text-align: center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
@@ -123,6 +134,7 @@
             padding: 20px 40px;
             border-radius: 15px;
             border: 3px solid #6b8e23;
+            max-width: 80%;
         }
         .welcome-text h1 {
             font-size: 3em;
@@ -135,17 +147,21 @@
         }
         .character-container {
             position: fixed;
-            bottom: 52.5vh;
+            bottom: 20vh;
             left: 5%;
-            z-index: 10;
-            width: 100px; height: 200px;
+            z-index: 4;
+            width: 150px;
+            height: 200px;
         }
         .character {
-            width: 1000px; height: 700px;
+            width: 100%;
+            height: 100%;
             background-size: contain;
             background-repeat: no-repeat;
+            background-position: bottom left;
             position: absolute;
-            top: 0; left: 0;
+            bottom: 0;
+            left: 0;
             opacity: 0;
             transition: opacity 1s ease-in-out;
         }
@@ -157,19 +173,25 @@
         .character-img-5 { background-image: url('char.jpg'); }
         .scroll-indicator {
             position: fixed;
-            bottom: 30px; width: 100%;
-            display: flex; justify-content: center;
-            z-index: 10; opacity: 0;
+            bottom: 30px; 
+            width: 100%;
+            display: flex; 
+            justify-content: center;
+            z-index: 10; 
+            opacity: 0;
             transition: opacity 1s ease-in-out;
         }
         .nav-button {
             background-color: rgba(255, 246, 213, 0.8);
             border: none;
             border-radius: 50%;
-            width: 50px; height: 50px;
+            width: 50px; 
+            height: 50px;
             margin: 0 10px;
             cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
             font-size: 1.5em;
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             color: #5d7e38;
@@ -182,11 +204,14 @@
         }
         .progress-container {
             position: fixed;
-            bottom: 20px; left: 50%;
+            bottom: 20px; 
+            left: 50%;
             transform: translateX(-50%);
-            width: 200px; height: 5px;
+            width: 200px; 
+            height: 5px;
             background-color: rgba(255, 246, 213, 0.3);
-            border-radius: 5px; z-index: 10;
+            border-radius: 5px; 
+            z-index: 10;
         }
         .progress-bar {
             height: 100%;
@@ -197,13 +222,17 @@
         }
         .section-indicators {
             position: fixed;
-            right: 20px; top: 50%;
+            right: 20px; 
+            top: 50%;
             transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 10px;
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px;
             z-index: 10;
         }
         .section-indicator {
-            width: 15px; height: 15px;
+            width: 15px; 
+            height: 15px;
             border-radius: 50%;
             background-color: rgba(255, 246, 213, 0.5);
             cursor: pointer;
@@ -216,15 +245,20 @@
         }
         .wooden-sign {
             position: absolute;
-            top: 20%; right: 10%;
-            width: 200px; height: 120px;
+            top: 15%; 
+            right: 10%;
+            width: 200px; 
+            height: 120px;
             background-color: #8b5a2b;
             border-radius: 10px;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
             transform: rotate(5deg);
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             border: 6px solid #654321;
-            padding: 15px; z-index: 4;
+            padding: 15px; 
+            z-index: 4;
         }
         .wooden-sign h3 {
             color: #f9f1d9;
@@ -247,6 +281,126 @@
         }
         button.link-btn:hover, .grid-item button:hover {
             background-color: #444c56;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 1024px) {
+            /* Tablet styles */
+            .character-container {
+                width: 120px;
+                height: 160px;
+                bottom: 15vh;
+            }
+            
+            .section-content {
+                padding: 15px;
+                width: 95%;
+            }
+            
+            .wooden-sign {
+                width: 160px;
+                height: 100px;
+                top: 10%;
+            }
+            
+            .wooden-sign h3 {
+                font-size: 1.5em;
+            }
+            
+            h2 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Mobile styles */
+            .character-container {
+                display: none; /* Hide character on small screens */
+            }
+            
+            .section {
+                padding-bottom: 20vh;
+            }
+            
+            .section-content {
+                width: 100%;
+                padding: 10px;
+            }
+            
+            .wooden-sign {
+                width: 120px;
+                height: 80px;
+                right: 5%;
+                top: 5%;
+            }
+            
+            .wooden-sign h3 {
+                font-size: 1.2em;
+            }
+            
+            h2 {
+                font-size: 1.8em;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-text h1 {
+                font-size: 2em;
+            }
+            
+            .welcome-text p {
+                font-size: 1.2em;
+            }
+            
+            .section-indicators {
+                right: 10px;
+                gap: 8px;
+            }
+            
+            .nav-button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
+            
+            .progress-container {
+                width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Small mobile styles */
+            .welcome-text {
+                padding: 15px 20px;
+            }
+            
+            .welcome-text h1 {
+                font-size: 1.8em;
+            }
+            
+            .wooden-sign {
+                width: 100px;
+                height: 60px;
+            }
+            
+            .wooden-sign h3 {
+                font-size: 1em;
+            }
+            
+            .section-indicator {
+                width: 12px;
+                height: 12px;
+            }
+        }
+        @media (min-width: 1025px) {
+            /* Desktop styles */
+            .character-container {
+                width: 700px;
+                height: 500px;
+                bottom: 2px;
+            }
         }
     </style>
 </head>
@@ -281,7 +435,7 @@
                 <div class="grid-container">
                     <div class="grid-item">
                         <h3>About Me</h3>
-                        <p>I’m a designer–developer blending creativity with cutting-edge AI/ML.
+                        <p>I'm a designer-developer blending creativity with cutting-edge AI/ML.
                             Recently fine-tuned large language models to build intelligent, adaptive tools.
                             My work bridges design, code, and machine learning to craft engaging experiences.
                             Passionate about innovation, I focus on real-world impact through tech.
