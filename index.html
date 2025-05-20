@@ -8,10 +8,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
-            overflow-x: hidden;
-            overflow-y: hidden;
             background-color: #d0da83;
             color: #cfa468;
+            overflow-x: hidden;
+            overflow-y: hidden;
         }
         .horizontal-container {
             display: flex;
@@ -19,6 +19,38 @@
             height: 100vh;
             position: relative;
             transition: transform 0.8s ease-out;
+        }
+        /* Mobile: vertical scroll mode */
+        @media (max-width: 600px) {
+            body {
+                overflow-x: hidden;
+                overflow-y: auto !important;
+            }
+            .horizontal-container {
+                flex-direction: column !important;
+                width: 100vw !important;
+                height: auto !important;
+                min-height: 100vh;
+                transition: none !important;
+                transform: none !important;
+            }
+            .section, .intro-container {
+                width: 100vw !important;
+                height: auto !important;
+                min-height: 100vh;
+                padding-bottom: 5vh;
+            }
+            .bg-layer-1, .bg-layer-2 {
+                display: none !important;
+            }
+            .character-container {
+                display: none !important;
+            }
+            .progress-container,
+            .section-indicators,
+            .scroll-indicator {
+                display: none !important;
+            }
         }
         .bg-layer-1 {
             position: fixed;
@@ -286,7 +318,6 @@
 
         /* Responsive styles */
         @media (max-width: 600px) {
-            /* Mobile screens: Grid becomes one column, make content scrollable */
             .section-content {
                 padding: 8px;
             }
@@ -412,7 +443,7 @@
                 display: none !important;
             }
             .scroll-indicator {
-                display: flex !important;
+                display: none !important;
             }
             .character, .character-container {
                 pointer-events: none !important;
@@ -441,7 +472,6 @@
     <div class="horizontal-container">
         <div class="bg-layer-1"></div>
         <div class="bg-layer-2"></div>
-
         <!-- Section 1: Intro -->
         <div class="section intro-container">
             <div class="cloud cloud-left"></div>
@@ -566,7 +596,7 @@
                     </div>
                     <div class="grid-item">
                         <h3>Social Media</h3>
-                        <button class="link-btn" data-url="https://www.linkedin.com/in/sameti-thirumani-vigneshwar">LinkedIn</button>
+                        <button class="link-btn" data-url="https://linkedin.com/in/vigneshwar%20sameti%20thirumani">LinkedIn</button>
                         <button class="link-btn" data-url="https://github.com/vigneshwar4053">GitHub</button>
                     </div>
                     <div class="grid-item">
@@ -602,102 +632,108 @@
                 }
             });
 
-            // Navigation and effects
-            const container = document.querySelector('.horizontal-container');
-            const nextBtn = document.querySelector('.next-btn');
-            const prevBtn = document.querySelector('.prev-btn');
-            const progressBar = document.querySelector('.progress-bar');
-            const sectionIndicators = document.querySelectorAll('.section-indicator');
-            const characters = document.querySelectorAll('.character');
-            const bgLayer1 = document.querySelector('.bg-layer-1');
-            const bgLayer2 = document.querySelector('.bg-layer-2');
+            // Only enable navigation on desktop/tablet
+            if (window.innerWidth > 600) {
+                const container = document.querySelector('.horizontal-container');
+                const nextBtn = document.querySelector('.next-btn');
+                const prevBtn = document.querySelector('.prev-btn');
+                const progressBar = document.querySelector('.progress-bar');
+                const sectionIndicators = document.querySelectorAll('.section-indicator');
+                const characters = document.querySelectorAll('.character');
+                const bgLayer1 = document.querySelector('.bg-layer-1');
+                const bgLayer2 = document.querySelector('.bg-layer-2');
+                let currentSection = 0;
+                const totalSections = 6;
 
-            let currentSection = 0;
-            const totalSections = 6;
+                updateCharacter(0);
 
-            updateCharacter(0);
+                function updateCharacter(index) {
+                    characters.forEach((char, i) => {
+                        char.style.opacity = (i === index) ? '1' : '0';
+                    });
+                }
 
-            function updateCharacter(index) {
-                characters.forEach((char, i) => {
-                    char.style.opacity = (i === index) ? '1' : '0';
-                });
-            }
-
-            setTimeout(() => {
-                document.querySelector('.welcome-text').style.opacity = '1';
                 setTimeout(() => {
-                    document.querySelector('.scroll-indicator').style.opacity = '1';
-                }, 500);
-            }, 1000);
+                    document.querySelector('.welcome-text').style.opacity = '1';
+                    setTimeout(() => {
+                        document.querySelector('.scroll-indicator').style.opacity = '1';
+                    }, 500);
+                }, 1000);
 
-            function goToSection(index) {
-                if (index < 0) index = 0;
-                if (index >= totalSections) index = totalSections - 1;
-                currentSection = index;
-                container.style.transform = `translateX(${-currentSection * 100}vw)`;
-                const bgOffset1 = -currentSection * 60;
-                const bgOffset2 = -currentSection * 30;
-                bgLayer1.style.transform = `translateX(${bgOffset1}px)`;
-                bgLayer2.style.transform = `translateX(${bgOffset2}px)`;
-                progressBar.style.width = `${(currentSection + 1) / totalSections * 100}%`;
-                sectionIndicators.forEach((indicator, i) => {
-                    indicator.classList.toggle('active', i === currentSection);
+                function goToSection(index) {
+                    if (index < 0) index = 0;
+                    if (index >= totalSections) index = totalSections - 1;
+                    currentSection = index;
+                    container.style.transform = `translateX(${-currentSection * 100}vw)`;
+                    const bgOffset1 = -currentSection * 60;
+                    const bgOffset2 = -currentSection * 30;
+                    bgLayer1.style.transform = `translateX(${bgOffset1}px)`;
+                    bgLayer2.style.transform = `translateX(${bgOffset2}px)`;
+                    progressBar.style.width = `${(currentSection + 1) / totalSections * 100}%`;
+                    sectionIndicators.forEach((indicator, i) => {
+                        indicator.classList.toggle('active', i === currentSection);
+                    });
+                    updateCharacter(currentSection);
+                }
+
+                nextBtn.addEventListener('click', () => goToSection(currentSection + 1));
+                prevBtn.addEventListener('click', () => goToSection(currentSection - 1));
+                sectionIndicators.forEach(indicator => {
+                    indicator.addEventListener('click', () => goToSection(parseInt(indicator.dataset.index)));
                 });
-                updateCharacter(currentSection);
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight') goToSection(currentSection + 1);
+                    else if (e.key === 'ArrowLeft') goToSection(currentSection - 1);
+                });
+
+                let wheelTimeout;
+                let wheelThrottle = false;
+                document.addEventListener('wheel', (e) => {
+                    if (wheelThrottle) return;
+                    wheelThrottle = true;
+                    clearTimeout(wheelTimeout);
+                    wheelTimeout = setTimeout(() => {
+                        if (e.deltaY > 0) goToSection(currentSection + 1);
+                        else if (e.deltaY < 0) goToSection(currentSection - 1);
+                        setTimeout(() => { wheelThrottle = false; }, 800);
+                    }, 300);
+                });
+
+                let touchStartX = 0;
+                let touchEndX = 0;
+                document.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
+                document.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                });
+                function handleSwipe() {
+                    const threshold = 50;
+                    if (touchEndX < touchStartX - threshold) goToSection(currentSection + 1);
+                    else if (touchEndX > touchStartX + threshold) goToSection(currentSection - 1);
+                }
+
+                document.addEventListener('mousemove', (e) => {
+                    const moveY = (e.clientY / window.innerHeight) * 5;
+                    const currentBgTransform1 = bgLayer1.style.transform || '';
+                    const currentBgTransform2 = bgLayer2.style.transform || '';
+                    const currentX1 = currentBgTransform1.includes('translateX') 
+                        ? parseInt(currentBgTransform1.match(/translateX\((-?\d+)px\)/)[1])
+                        : 0;
+                    const currentX2 = currentBgTransform2.includes('translateX')
+                        ? parseInt(currentBgTransform2.match(/translateX\((-?\d+)px\)/)[1])
+                        : 0;
+                    bgLayer1.style.transform = `translateX(${currentX1}px) translateY(${moveY}px)`;
+                    bgLayer2.style.transform = `translateX(${currentX2}px) translateY(${-moveY * 1.5}px)`;
+                });
+            } else {
+                // On mobile, show welcome text immediately
+                setTimeout(() => {
+                    document.querySelector('.welcome-text').style.opacity = '1';
+                }, 800);
             }
-
-            nextBtn.addEventListener('click', () => goToSection(currentSection + 1));
-            prevBtn.addEventListener('click', () => goToSection(currentSection - 1));
-            sectionIndicators.forEach(indicator => {
-                indicator.addEventListener('click', () => goToSection(parseInt(indicator.dataset.index)));
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight') goToSection(currentSection + 1);
-                else if (e.key === 'ArrowLeft') goToSection(currentSection - 1);
-            });
-
-            let wheelTimeout;
-            let wheelThrottle = false;
-            document.addEventListener('wheel', (e) => {
-                if (wheelThrottle) return;
-                wheelThrottle = true;
-                clearTimeout(wheelTimeout);
-                wheelTimeout = setTimeout(() => {
-                    if (e.deltaY > 0) goToSection(currentSection + 1);
-                    else if (e.deltaY < 0) goToSection(currentSection - 1);
-                    setTimeout(() => { wheelThrottle = false; }, 800);
-                }, 300);
-            });
-
-            let touchStartX = 0;
-            let touchEndX = 0;
-            document.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            document.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            });
-            function handleSwipe() {
-                const threshold = 50;
-                if (touchEndX < touchStartX - threshold) goToSection(currentSection + 1);
-                else if (touchEndX > touchStartX + threshold) goToSection(currentSection - 1);
-            }
-
-            document.addEventListener('mousemove', (e) => {
-                const moveY = (e.clientY / window.innerHeight) * 5;
-                const currentBgTransform1 = bgLayer1.style.transform || '';
-                const currentBgTransform2 = bgLayer2.style.transform || '';
-                const currentX1 = currentBgTransform1.includes('translateX') 
-                    ? parseInt(currentBgTransform1.match(/translateX\((-?\d+)px\)/)[1])
-                    : 0;
-                const currentX2 = currentBgTransform2.includes('translateX')
-                    ? parseInt(currentBgTransform2.match(/translateX\((-?\d+)px\)/)[1])
-                    : 0;
-                bgLayer1.style.transform = `translateX(${currentX1}px) translateY(${moveY}px)`;
-                bgLayer2.style.transform = `translateX(${currentX2}px) translateY(${-moveY * 1.5}px)`;
-            });
 
             // Theme Color Change for Buttons
             function applyThemeColors() {
